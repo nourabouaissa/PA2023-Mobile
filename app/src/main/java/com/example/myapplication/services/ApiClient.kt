@@ -1,3 +1,5 @@
+import android.util.Log
+import com.example.myapplication.User
 import com.example.myapplication.services.ApiService
 import com.example.myapplication.ui.dashboard.Friend
 import com.example.myapplication.ui.home.Game
@@ -6,9 +8,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.Console
 
 object ApiClient {
-    private const val BASE_URL = "https://random-data-api.com/"
+    private const val BASE_URL = "http://10.0.2.2:8000/api/"
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -57,4 +60,57 @@ object ApiClient {
             }
         })
     }
+
+    fun CreateNewUser(user: User)
+    {
+        val call = apiService.signup(user)
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.e("CreateNewUser", "Erreur lors de l'appel API: ${t.message}")
+            }
+        })
+    }
+
+    fun getToken(username: String, password: String, callback: (String?) -> Unit) {
+        val request = TokenRequest(username, password)
+
+        Log.e("Auth", "login: ${request.username}")
+        Log.e("Auth", "password: ${request.password}")
+
+        val call = apiService.getToken(request)
+        call.enqueue(object : Callback<TokenResponse> {
+            override fun onResponse(call: Call<TokenResponse>, response: Response<TokenResponse>) {
+                if (response.isSuccessful) {
+                    val tokenResponse = response.body()
+                    val token = tokenResponse?.token
+                    callback(token)
+                    Log.e("Auth", "Connected: ${token}")
+                } else {
+                    Log.e("Auth", "Erreur d'authent: ${response.message()}")
+                    callback(null)
+                }
+            }
+
+            override fun onFailure(call: Call<TokenResponse>, t: Throwable) {
+                Log.e("Auth", "Erreur d'authent: ${t.message}")
+                callback(null)
+            }
+        })
+    }
+
 }
+
+data class TokenResponse(
+    val token: String,
+    val user_id: String
+)
+
+
+
+data class TokenRequest(
+    val username: String,
+    val password: String
+)
