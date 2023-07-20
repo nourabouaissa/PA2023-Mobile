@@ -6,12 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/games_recyclerview"
+    android:layout_marginTop="400dp"
+    />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/games_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="5dp"
         app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/game_item"
-        android:padding="5dp"/>
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="-62dp"
+        tools:listitem="@layout/game_item" />
 
+    <TextView
+        android:id="@+id/textViewDescription"
+        android:layout_width="287dp"
+        android:layout_height="300dp"
+        android:gravity="center"
+        android:padding="48dp"
+        android:text="Bienvenue à notre application"
+        android:textStyle="bold"
+        android:textColorHighlight="@color/colorPrimary"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

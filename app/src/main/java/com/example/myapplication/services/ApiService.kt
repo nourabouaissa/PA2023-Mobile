@@ -1,26 +1,32 @@
 package com.example.myapplication.services
 
+
 import TokenRequest
 import TokenResponse
 import com.example.myapplication.User
-import com.example.myapplication.model.SignupRequest
-import com.example.myapplication.model.SignupResponse
-import com.example.myapplication.ui.dashboard.Friend
-import com.example.myapplication.ui.home.Game
+import com.example.myapplication.ui.dashboard.GamesData
+import com.example.myapplication.ui.my_account.Ami
+import com.example.myapplication.ui.my_account.Friend
+import com.example.myapplication.ui.my_account.UserInfo
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
-    @GET("/api/users/random_user?size=30")
-    fun getFriends(): Call<List<Friend>>
 
-    @GET("/api/users/random_user?size=5")
-    fun getGames(): Call<List<Game>>
-
-    @POST("auth/")
-    fun getToken(@Body request: TokenRequest) : Call<TokenResponse>
     @POST("player/")
     fun signup(@Body request: User) : Call<Void>
+    @POST("addfriend/{friendId}/{userId}/")
+    fun addFriend(@Path("userId") userId:String,@Path("friendId") friendId:String): Call<Void>
+    @POST("auth/")
+    fun getToken(@Body request: TokenRequest) : Call<TokenResponse>
+
+    @GET("player/{id}")
+    fun getUserInfo(@Header("Authorization") token: String, @Path("id") id: String): Call<UserInfo>
+
+    @GET("party/")
+    fun getGames() : Call<GamesData>
 }

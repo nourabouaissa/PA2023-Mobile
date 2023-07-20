@@ -8,18 +8,34 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.myapplication.ui.home.HomeFragment"
-        android:label="Parties"
-        tools:layout="@layout/fragment_home" />
+        android:label="Masseney"
+        tools:layout="@layout/fragment_home"
+        />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.myapplication.ui.dashboard.DashboardFragment"
-        android:label="Amis"
+        android:label="Parties"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.myapplication.ui.notifications.NotificationsFragment"
+        android:name="com.example.myapplication.ui.my_account.AccountFragment"
         android:label="Réglages"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_navigation_notifications_to_add_friend_fragment"
+            app:destination="@id/add_friend_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/add_friend_fragment"
+        android:name="com.example.myapplication.ui.AddFriendFragment"
+        android:label="Add friend"
+        tools:layout="@layout/add_friend_fragment" >
+        <action
+            android:id="@+id/action_add_friend_fragment_to_navigation_notifications"
+            app:destination="@id/navigation_notifications" />
+    </fragment>
+
 </navigation>

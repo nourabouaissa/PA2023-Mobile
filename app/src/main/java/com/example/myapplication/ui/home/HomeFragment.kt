@@ -38,45 +38,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        homeViewModel.gamesList.observe(viewLifecycleOwner, Observer { list ->
-            val friendsRecyclerView: RecyclerView = view.findViewById(R.id.games_recyclerview)
-            val friendsAdapter = GamesAdapter(list)
-            friendsRecyclerView.adapter = friendsAdapter
-            friendsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        })
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-}
-
-//Adapter
-class GamesAdapter(private val friendsList: List<Game>) : RecyclerView.Adapter<GamesAdapter.FriendViewHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.game_item, parent, false)
-        return FriendViewHolder(itemView)
-    }
-
-    override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
-        val currentFriend = friendsList[position]
-        holder.nameTextView.text = currentFriend.username
-        // Vous pouvez également utiliser une bibliothèque comme Glide pour charger l'image depuis l'URL.
-        // holder.photoImageView.setImageFromUrl(currentFriend.photoUrl)
-    }
-
-    override fun getItemCount(): Int {
-        return friendsList.size
-    }
-
-    inner class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameTextView: TextView = itemView.findViewById(R.id.game_title)
-        // val photoImageView: ImageView = itemView.findViewById(R.id.game_image) - si vous avez une image dans votre layout
     }
 }
