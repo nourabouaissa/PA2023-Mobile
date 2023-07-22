@@ -26,15 +26,31 @@
         <action
             android:id="@+id/action_navigation_notifications_to_add_friend_fragment"
             app:destination="@id/add_friend_fragment" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_friends_request_fragment"
+            app:destination="@id/friends_request_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
         android:id="@+id/add_friend_fragment"
-        android:name="com.example.myapplication.ui.AddFriendFragment"
+        android:name="com.example.myapplication.ui.my_account.AddFriendFragment"
         android:label="Add friend"
         tools:layout="@layout/add_friend_fragment" >
         <action
             android:id="@+id/action_add_friend_fragment_to_navigation_notifications"
+            app:destination="@id/navigation_notifications" />
+    </fragment>
+    <fragment
+         android:id="@+id/friends_request_fragment"
+        android:name="com.example.myapplication.ui.my_account.FriendsRequestFragment"
+        android:label="Friend request"
+        tools:layout="@layout/fragment_friends_request">
+        <action
+            android:id="@+id/action_friends_request_fragment_to_navigation_notifications"
             app:destination="@id/navigation_notifications" />
     </fragment>
 

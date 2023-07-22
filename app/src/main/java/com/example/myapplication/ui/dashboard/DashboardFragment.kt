@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentDashboardBinding
+import com.example.myapplication.databinding.FragmentFriendsRequestBinding
+import com.example.myapplication.model.PartyInfo
+import com.example.myapplication.ui.my_account.FriendsRequestViewModel
 
 class DashboardFragment : Fragment() {
 
@@ -44,7 +47,7 @@ class DashboardFragment : Fragment() {
 
         dashboardViewModel.friendsList.observe(viewLifecycleOwner, Observer { gamesList ->
             val friendsRecyclerView: RecyclerView = view.findViewById(R.id.friends_recyclerview)
-            val friendsAdapter = GamesAdapter(gamesList)
+            val friendsAdapter = GamesAdapter(gamesList?: emptyList())
             friendsRecyclerView.adapter = friendsAdapter
             friendsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         })
@@ -57,7 +60,7 @@ class DashboardFragment : Fragment() {
 }
 
 //Adapter
-class GamesAdapter(private val friendsList: List<Game>) : RecyclerView.Adapter<GamesAdapter.FriendViewHolder>() {
+class GamesAdapter(private val friendsList: List<PartyInfo>) : RecyclerView.Adapter<GamesAdapter.FriendViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.game_item, parent, false)

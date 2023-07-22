@@ -1,10 +1,14 @@
 import android.util.Log
 import com.example.myapplication.User
 import com.example.myapplication.services.ApiService
-import com.example.myapplication.ui.dashboard.GamesData
-import com.example.myapplication.ui.my_account.Ami
-import com.example.myapplication.ui.my_account.Friend
-import com.example.myapplication.ui.my_account.UserInfo
+import com.example.myapplication.model.Friend
+import com.example.myapplication.model.PartyInfo
+import com.example.myapplication.model.UserInfo
+import com.example.myapplication.newtwork.response.AddFriendResponse
+import com.example.myapplication.newtwork.response.PartyInfoResponse
+import com.squareup.moshi.JsonClass
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.squareup.picasso.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,14 +17,20 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 
 object ApiClient {
     private const val BASE_URL = "http://10.0.2.2:8000/api/"
 
-    private fun provideHttpClient()=OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
-        level=if(BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-    }).build()
+    private fun provideHttpClient() =
+        OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
+            level =
+                if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        }).build()
+//    val moshi = Moshi.Builder()
+//        .addLast(KotlinJsonAdapterFactory())
+//        .build()
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(provideHttpClient())
@@ -30,8 +40,7 @@ object ApiClient {
     private val apiService: ApiService = retrofit.create(ApiService::class.java)
 
 
-    fun createNewUser(user: User)
-    {
+    fun createNewUser(user: User) {
         val call = apiService.signup(user)
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -42,27 +51,15 @@ object ApiClient {
             }
         })
     }
-    fun addFriend(newFriend: Ami): Call<Void> {
-        val call = apiService.addFriend("2","1")
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    // Friend added successfully, handle the response if needed
-                    Log.d("AddFriend", "Friend added successfully")
-                } else {
-                    // Handle error response
-                    Log.e("AddFriend", "Failed to add friend: ${response.code()}")
-                }
-            }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                // Handle network failure
-                Log.e("AddFriend", "Erreur lors de l'appel API: ${t.message}")
-            }
-        })
-        return call
+    fun addFriend(userId: String, friendId: String): Call<AddFriendResponse> {
+
+        return apiService.addFriend(userId, friendId)
     }
 
+    fun getUserByUsername(acccessToken: String, username: String): Call<UserInfo> {
+        return apiService.getbyUser(acccessToken, username)
+    }
 
     fun authenticateUser(username: String, password: String, callback: (TokenResponse?) -> Unit) {
         val request = TokenRequest(username, password)
@@ -108,37 +105,40 @@ object ApiClient {
         })
     }
 
-    fun getGamesData(callback: (GamesData?) -> Unit) {
-        val call = apiService.getGames()
-        call.enqueue(object : Callback<GamesData> {
-            override fun onResponse(call: Call<GamesData>, response: Response<GamesData>) {
+    fun getGameByUser(userId: String, accessToken: String?, callback: (List<PartyInfo>?) -> Unit) {
+        val call = apiService.getGameByUser(accessToken!!, userId)
+        call.enqueue(object : Callback<PartyInfoResponse> {
+            override fun onResponse(call: Call<PartyInfoResponse>, response: Response<PartyInfoResponse>) {
                 if (response.isSuccessful) {
                     val gamesData = response.body()
-                    callback(gamesData)
+                    callback(gamesData?.results)
                 } else {
                     callback(null)
                 }
             }
 
-            override fun onFailure(call: Call<GamesData>, t: Throwable) {
+            override fun onFailure(call: Call<PartyInfoResponse>, t: Throwable) {
                 callback(null)
             }
         })
     }
-}
 
+    fun acceptFriend(accessToken: String?, playerId: Int): Call<AddFriendResponse> {
+        return apiService.acceptFriend(accessToken ?: "", playerId)
+    }
+}
+@JsonClass(generateAdapter = true)
 data class TokenResponse(
     val token: String,
     val user_id: String
 )
 
-
-
+@JsonClass(generateAdapter = true)
 data class TokenRequest(
     val username: String,
     val password: String
 )
-
+@JsonClass(generateAdapter = true)
 data class FriendsResponse(
     val count: Int,
     val next: String?,

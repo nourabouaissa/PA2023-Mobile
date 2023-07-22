@@ -3,8 +3,10 @@ package com.example.myapplication.ui.my_account
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.myapplication.model.UserInfo
 
 class AccountViewModel(application: Application) : AndroidViewModel(application) {
     private val PREF_ACCESS_TOKEN = "access_token"
@@ -16,6 +18,7 @@ class AccountViewModel(application: Application) : AndroidViewModel(application)
     val userInfo: LiveData<UserInfo> get() = _userInfo
 
     init {
+
         loadUserInfo()
     }
 
@@ -44,24 +47,3 @@ class AccountViewModel(application: Application) : AndroidViewModel(application)
     }
 }
 
-data class Friend(
-    val username: String,
-    val player_id: Int,
-    val asc_id: Int,
-    val url_image: String
-)
-data class Ami(
-    val username: String
-)
-
-data class UserInfo(
-    val id: Int,
-    val username: String,
-    val email: String,
-    val first_name: String,
-    val last_name: String,
-    val commentaire: Boolean,
-    val url_image: String,
-    val friends: List<Friend>,
-    val invit: List<Any>
-)

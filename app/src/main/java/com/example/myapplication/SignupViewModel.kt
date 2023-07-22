@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import ApiClient
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.ui.my_account.Ami
 
 class SignupViewModel : ViewModel() {
     fun CreateUser(user : User)

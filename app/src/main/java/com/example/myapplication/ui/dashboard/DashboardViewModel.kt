@@ -1,22 +1,34 @@
 package com.example.myapplication.ui.dashboard
 
+import android.app.Application
+import android.content.Context
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.model.PartyInfo
 
-class DashboardViewModel : ViewModel() {
-
-    private val _friendList = MutableLiveData<List<Game>>()
-    val friendsList: LiveData<List<Game>> get() = _friendList
+class DashboardViewModel(application: Application) : AndroidViewModel(application) {
+    private val PREF_ACCESS_TOKEN = "access_token"
+    private val PREF_ID = "user_id"
+    private val sharedPreferences =
+        application.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+    private val _friendList = MutableLiveData<List<PartyInfo>>()
+    val friendsList: LiveData<List<PartyInfo>> get() = _friendList
 
     init {
         loadFriendsList()
     }
-
+    fun getId(): String? {
+        return sharedPreferences.getString(PREF_ID, null)
+    }
+    fun getAccessToken(): String? {
+        return sharedPreferences.getString(PREF_ACCESS_TOKEN, null)
+    }
     private fun loadFriendsList() {
-        ApiClient.getGamesData() { gamesData ->
+        ApiClient.getGameByUser(getId()!!,getAccessToken()?:"") { gamesData ->
             if (friendsList != null) {
-                _friendList.value = gamesData?.results
+                _friendList.value = gamesData
             } else {
                 // Gérer l'erreur de chargement de la liste d'amis depuis l'API
             }
