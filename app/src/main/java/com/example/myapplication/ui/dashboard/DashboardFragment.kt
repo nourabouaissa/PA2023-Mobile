@@ -21,8 +21,6 @@ class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -70,8 +68,7 @@ class GamesAdapter(private val friendsList: List<PartyInfo>) : RecyclerView.Adap
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
         val currentGame = friendsList[position]
         holder.nameTextView.text = currentGame.title
-        // Vous pouvez également utiliser une bibliothèque comme Glide pour charger l'image depuis l'URL.
-        // holder.photoImageView.setImageFromUrl(currentFriend.photoUrl)
+
     }
 
     override fun getItemCount(): Int {
@@ -80,6 +77,5 @@ class GamesAdapter(private val friendsList: List<PartyInfo>) : RecyclerView.Adap
 
     inner class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.game_title)
-        // val photoImageView: ImageView = itemView.findViewById(R.id.game_image) - si vous avez une image dans votre layout
     }
 }

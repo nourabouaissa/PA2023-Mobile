@@ -28,8 +28,6 @@ class AccountFragment : Fragment() {
 
     private var _binding: FragmentAccountBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
     private val navController by lazy{
         findNavController()
@@ -45,18 +43,11 @@ class AccountFragment : Fragment() {
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
         val root: View = binding.root
         viewLifecycleOwner.lifecycleScope.launch {
-            // repeatOnLifecycle launches the block in a new coroutine every time the
-            // lifecycle is in the STARTED state (or above) and cancels it when it's STOPPED.
+
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                // Trigger the flow and start listening for values.
-                // This happens when lifecycle is STARTED and stops
-                // collecting when the lifecycle is STOPPED
+
                 accountViewModel.userInfo.observe(viewLifecycleOwner) {
-                    /*  Glide.with(this)
-                          .load(it.url_image)
-                        *//*  .placeholder(R.drawable.default_avatar) // Image par défaut en cas de chargement
-                .error(R.drawable.default_avatar) // Image par défaut en cas d'erreur de chargement*//*
-                .into(binding.avatarImageView)*/
+
                     Picasso.get().load(it.url_image).into(binding.avatarImageView)
                     binding.emailTextView.text = it.email
 
@@ -83,7 +74,7 @@ class AccountFragment : Fragment() {
             // Rediriger vers la page de connexion
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
-            activity?.finish() // Optionnel, pour fermer l'activité actuelle après la redirection
+            activity?.finish()
         }
         binding.friendsRequestBtn.setOnClickListener {
             navController.navigate(R.id.action_navigation_notifications_to_friends_request_fragment)

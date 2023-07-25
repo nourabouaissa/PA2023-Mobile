@@ -45,7 +45,7 @@ class AddFriendFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         _binding = AddFriendFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -60,9 +60,9 @@ class AddFriendFragment : DialogFragment() {
             val friendName = binding.AddFriend.text.toString().trim()
             val accessToken = sharedPreferences?.getString(PREF_ACCESS_TOKEN, null)
             val userId = sharedPreferences?.getString(PREF_ID, null)
-            // Check if the enter   ed name is not empty
+
             if (friendName.isNotEmpty() && accessToken != null && userId != null) {
-                // Add the friend to the list
+
                 var addFriendResponse: AddFriendResponse?=null
                 ApiClient.getUserByUsername(accessToken, friendName)
                     .enqueue(object : Callback<UserInfo> {
@@ -85,7 +85,7 @@ class AddFriendFragment : DialogFragment() {
                                                     "Demande d\'amis envoyée pour $friendName",
                                                     Toast.LENGTH_LONG
                                                 ).show()
-                                                // Friend added successfully, handle the response if needed
+
                                                 navController.navigateUp()
                                             } else {
                                                 Toast.makeText(
@@ -93,7 +93,7 @@ class AddFriendFragment : DialogFragment() {
                                                     response.errorBody()?.string(),
                                                     Toast.LENGTH_LONG
                                                 ).show()
-                                                // Handle error response
+
                                                 Log.e(
                                                     "AddFriend",
                                                     "Failed to add friend: ${response.code()}"
@@ -110,7 +110,7 @@ class AddFriendFragment : DialogFragment() {
                                                 t.message,
                                                 Toast.LENGTH_LONG
                                             ).show()
-                                            // Handle network failure
+
                                             Log.e(
                                                 "AddFriend",
                                                 "Erreur lors de l'appel API: ${t.message}"
@@ -144,17 +144,9 @@ class AddFriendFragment : DialogFragment() {
                         }
                     })
 
-//                newFriend
-//
-//                // Notify the adapter that the data set has changed
-//                (binding.friendsRecyclerView.adapter as? FriendsAdapter)?.notifyDataSetChanged()
-
-
-                // Close the dialog
 
             } else {
-                // Display an error message or toast if the name is empty
-                // For example:
+
                 Toast.makeText(requireContext(), "Enter a valid friend's name", Toast.LENGTH_SHORT)
                     .show()
             }

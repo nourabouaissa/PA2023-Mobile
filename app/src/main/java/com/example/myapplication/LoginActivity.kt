@@ -50,16 +50,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToMainActivity() {
-        // Créer un intent pour passer à MainActivity
         val intent = Intent(this, MainActivity::class.java)
 
-        // Si vous avez besoin de passer des données à MainActivity, vous pouvez utiliser putExtra()
-        // intent.putExtra("key", value)
-
-        // Démarrer l'activité MainActivity
         startActivity(intent)
 
-        // Optionnellement, si vous souhaitez fermer LoginActivity après avoir démarré MainActivity, vous pouvez utiliser finish()
-        //finish()
     }
 }

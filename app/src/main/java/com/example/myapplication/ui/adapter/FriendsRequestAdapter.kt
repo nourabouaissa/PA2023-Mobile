@@ -17,29 +17,29 @@ import retrofit2.Response
 
 class FriendsRequestAdapter(private val friendsList: List<FriendRequest>,val viewModel: FriendsRequestViewModel) : RecyclerView.Adapter<FriendsRequestAdapter.FriendRequestViewHolder>() {
 
-    // Crée le ViewHolder pour chaque élément de la liste
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendRequestViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.friends_request_item, parent, false)
         return FriendRequestViewHolder(view)
     }
 
-    // Lie les données du modèle à la vue de l'élément
+
     override fun onBindViewHolder(holder: FriendRequestViewHolder, position: Int) {
         val friend = friendsList[position]
         holder.bind(friend,viewModel)
     }
 
-    // Retourne le nombre total d'éléments dans la liste
+
     override fun getItemCount(): Int {
         return friendsList.size
     }
 
-    // Classe ViewHolder qui maintient les références aux éléments de la vue pour chaque élément de la liste
+
     class FriendRequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val nameTextView: TextView = itemView.findViewById(R.id.friend_username_tv)
         private val friendRequestButton:Button=itemView.findViewById(R.id.friends_request_btn)
-        // Lie les données du modèle à la vue de l'élément
+
         fun bind(friend: FriendRequest,viewModel:FriendsRequestViewModel) {
            nameTextView.text=friend.username
             friendRequestButton.setOnClickListener {

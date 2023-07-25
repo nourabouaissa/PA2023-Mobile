@@ -30,7 +30,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             if (friendsList != null) {
                 _friendList.value = gamesData
             } else {
-                // Gérer l'erreur de chargement de la liste d'amis depuis l'API
+
             }
         }
     }

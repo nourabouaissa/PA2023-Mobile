@@ -3,7 +3,7 @@ package com.example.myapplication.ui.my_account
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LifecycleCoroutineScope
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.myapplication.model.UserInfo
@@ -31,11 +31,11 @@ class AccountViewModel(application: Application) : AndroidViewModel(application)
                 if (userInfo != null) {
                     _userInfo.postValue(userInfo)
                 } else {
-                    // Gérer l'erreur de chargement de la liste d'amis depuis l'API
+
                 }
             }
         } else {
-            // Gérer le cas où le token ou l'ID est null
+
         }
     }
 

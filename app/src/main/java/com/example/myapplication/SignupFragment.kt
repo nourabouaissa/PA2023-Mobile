@@ -47,20 +47,18 @@ class SignupFragment : DialogFragment() {
             val email = view.findViewById<EditText>(R.id.email).text.toString().trim()
             val profileImageUrl = view.findViewById<EditText>(R.id.profileImageUrl).text.toString().trim()
 
-            // Vérification des champs vides
+
             if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() ||
                 firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || profileImageUrl.isEmpty()) {
-                //Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
+
                 return@setOnClickListener
             }
 
-            // Vérification de la correspondance entre les mots de passe
+
             if (password != confirmPassword) {
-                //Toast.makeText(this, "Les mots de passe ne correspondent pas", Toast.LENGTH_SHORT).show()
+
                 return@setOnClickListener
             }
-
-            // Création de l'objet SignupRequest
             val user = User(username, password, confirmPassword, firstName, lastName, email, profileImageUrl)
 
             viewModel.CreateUser(user);

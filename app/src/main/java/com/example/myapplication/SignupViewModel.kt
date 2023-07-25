@@ -9,13 +9,7 @@ class SignupViewModel : ViewModel() {
         ApiClient.createNewUser(user);
 
     }
- /*   fun Addami(ami : Ami)
-    {
 
-        ApiClient.addFriend(ami);
-
-    }
-*/
 }
 
 data class User(
